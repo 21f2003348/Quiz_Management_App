@@ -7,29 +7,48 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Update chapters and auto-load quizzes when subject selection changes
             $('#subject').change(function() {
                 var subjectId = $(this).val();
                 $.getJSON('/get_chapters/' + subjectId, function(data) {
                     var chapterSelect = $('#chapter');
                     chapterSelect.empty();
-                    $.each(data, function(index, chapter) {
-                        chapterSelect.append($('<option></option>').attr('value', chapter[0]).text(chapter[1]));
-                    });
+                    // Hide quiz container until a chapter is selected
+                    $('#quiz-container').hide();
+                    if (data.length === 0) {
+                        $('#quiz').empty();
+                    } else {
+                        // Populate chapter dropdown
+                        $.each(data, function(index, chapter) {
+                            chapterSelect.append($('<option></option>').attr('value', chapter[0]).text(chapter[1]));
+                        });
+                        // Trigger change event on chapter to automatically load associated quizzes
+                        chapterSelect.change();
+                    }
                 });
             });
 
+            // Update quizzes when chapter selection changes
             $('#chapter').change(function() {
                 var chapterId = $(this).val();
-                console.log("Selected Chapter ID: " + chapterId); // Debugging line
                 $.getJSON('/get_quizzes/' + chapterId, function(data) {
-                    var quizSelect = $('#quiz_id');
+                    var quizSelect = $('#quiz');
                     quizSelect.empty();
-                    console.log("Quizzes received: ", data); // Debugging line
-                    $.each(data, function(index, quiz) {
-                        quizSelect.append($('<option></option>').attr('value', quiz[0]).text(quiz[1]));
-                    });
+                    if (data.length > 0) {
+                        $.each(data, function(index, quiz) {
+                            quizSelect.append($('<option></option>').attr('value', quiz[0]).text(quiz[1]));
+                        });
+                        // Show quiz container when quizzes are found
+                        $('#quiz-container').show();
+                    } else {
+                        // Hide quiz container if there are no quizzes for the chosen chapter
+                        $('#quiz-container').hide();
+                    }
                 });
             });
+
+            // Trigger subject change on page load to initialize dropdowns
+            $('#subject').trigger('change');
         });
     </script>
 </head>
@@ -53,19 +72,19 @@
         </div>
         <div>
             <label for="subject">Subject:</label><br>
-            {{ form.subject() }}<br>
+            {{ form.subject(default='1') }}<br>
             {% for error in form.subject.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </div>
         <div>
             <label for="chapter">Chapter:</label><br>
-            {{ form.chapter() }}<br>
+            {{ form.chapter(default='1') }}<br>
             {% for error in form.chapter.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </div>
-        <div>
+        <div id="quiz-container" style="display:none;">
             <label for="quiz">Quiz:</label><br>
             {{ form.quiz() }}<br>
             {% for error in form.quiz.errors %}
