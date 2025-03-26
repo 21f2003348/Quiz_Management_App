@@ -151,7 +151,11 @@ def create_question():
         chapters = Chapter.query.filter_by(subject_id=form.subject.data).all()
         form.chapter.choices = [(chapter.id, chapter.name) for chapter in chapters]
         
+        quizzes = Quiz.query.all()
+        form.quiz.choices = [(quiz.id, quiz.title) for quiz in quizzes]
+
         if form.chapter.data:
+            print(1)
             quizzes = Quiz.query.filter_by(chapter_id=form.chapter.data).all()
             form.quiz.choices = [(quiz.id, quiz.title) for quiz in quizzes]
         else:
@@ -163,7 +167,16 @@ def create_question():
         chapters = Chapter.query.filter_by(subject_id=form.subject.data).all()
         form.chapter.choices = [(chapter.id, chapter.name) for chapter in chapters]
 
-        question = Question(text=form.text.data, answer=form.answer.data, quiz_id=form.quiz_id.data)
+        question = Question(
+            text=form.text.data,
+            answer=form.answer.data,
+            quiz_id=form.quiz.data,
+            option1=form.option1.data,
+            option2=form.option2.data,
+            option3=form.option3.data,
+            option4=form.option4.data
+        )
+
         db.session.add(question)
         db.session.commit()
         flash('Question created successfully!', 'success')

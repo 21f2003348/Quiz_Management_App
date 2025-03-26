@@ -50,6 +50,11 @@ class QuestionForm(FlaskForm):
     chapter = SelectField('Chapter', coerce=int, validators=[DataRequired()])  # To be populated with chapters
 
     subject = SelectField('Subject', coerce=int, validators=[DataRequired()])  # To be populated with subjects
+    option1 = StringField(label='Option 1:', validators=[DataRequired()])
+    option2 = StringField(label='Option 2:', validators=[DataRequired()])
+    option3 = StringField(label='Option 3:', validators=[DataRequired()])
+    option4 = StringField(label='Option 4:', validators=[DataRequired()])
+
 
     text = TextAreaField(label='Question Text:', validators=[DataRequired()])
     answer = StringField(label='Correct Answer:', validators=[DataRequired()])
