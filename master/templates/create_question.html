@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Question</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#subject').change(function() {
+                var subjectId = $(this).val();
+                $.getJSON('/get_chapters/' + subjectId, function(data) {
+                    var chapterSelect = $('#chapter');
+                    chapterSelect.empty();
+                    $.each(data, function(index, chapter) {
+                        chapterSelect.append($('<option></option>').attr('value', chapter[0]).text(chapter[1]));
+                    });
+                });
+            });
+
+            $('#chapter').change(function() {
+                var chapterId = $(this).val();
+                console.log("Selected Chapter ID: " + chapterId); // Debugging line
+                $.getJSON('/get_quizzes/' + chapterId, function(data) {
+                    var quizSelect = $('#quiz_id');
+                    quizSelect.empty();
+                    console.log("Quizzes received: ", data); // Debugging line
+                    $.each(data, function(index, quiz) {
+                        quizSelect.append($('<option></option>').attr('value', quiz[0]).text(quiz[1]));
+                    });
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Create Question</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.text.label }}<br>
+            {{ form.text(size=32) }}<br>
+            {% for error in form.text.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.answer.label }}<br>
+            {{ form.answer(size=32) }}<br>
+            {% for error in form.answer.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            <label for="subject">Subject:</label><br>
+            {{ form.subject() }}<br>
+            {% for error in form.subject.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            <label for="chapter">Chapter:</label><br>
+            {{ form.chapter() }}<br>
+            {% for error in form.chapter.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            <label for="quiz">Quiz:</label><br>
+            {{ form.quiz() }}<br>
+            {% for error in form.quiz.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit() }}
+            <div>
+                <button type="button" id="add_question">Add Question</button>
+            </div>
+            <script>
+                $('#add_question').click(function() {
+                    // Submit the form
+                    $('form').submit();
+                });
+            </script>
+        </div>
+    </form>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Admin Dashboard</a>
+</body>
+</html>

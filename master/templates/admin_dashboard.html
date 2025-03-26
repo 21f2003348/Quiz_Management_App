@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <h1>Admin Dashboard</h1>
+    <p>Welcome to the admin dashboard!</p>
+    <ul>
+        <li><a href="{{ url_for('create_subject') }}">Create Subject</a></li>
+        <li><a href="{{ url_for('create_chapter') }}">Create Chapter</a></li>
+        <li><a href="{{ url_for('create_quiz') }}">Create Quiz</a></li>
+        <li><a href="{{ url_for('create_question') }}">Create Question</a></li>
+    </ul>
+</body>
+</html>

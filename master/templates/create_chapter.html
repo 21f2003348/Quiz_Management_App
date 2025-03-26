@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Chapter</title>
+</head>
+<body>
+    <h1>Create a New Chapter</h1>
+    <form method="POST" action="{{ url_for('create_chapter') }}">
+        {{ form.hidden_tag() }}
+        <div>
+            {{ form.chapter_name.label }}<br>
+            {{ form.chapter_name(size=32) }}<br>
+            {% for error in form.chapter_name.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.subject.label }}<br>
+            {{ form.subject() }}<br>
+            {% for error in form.subject.errors %}
+
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </div>
+        <div>
+            {{ form.submit() }}
+        </div>
+    </form>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+</body>
+</html>
