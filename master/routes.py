@@ -96,6 +96,7 @@ def create_chapter():
     form.subject.choices = [(subject.id, subject.name) for subject in subjects]
     
     if form.validate_on_submit():
+
         chapter = Chapter(
             name=form.chapter_name.data,
             subject_id=form.subject.data
@@ -111,15 +112,15 @@ def create_chapter():
 def create_quiz():
     form = QuizForm()
 
-    # Populate subject choices
-    subjects = Subject.query.all()
-    form.subject.choices = [(subject.id, subject.name) for subject in subjects]
+    # # Populate subject choices
+    # subjects = Subject.query.all()
+    # form.subject.choices = [(subject.id, subject.name) for subject in subjects]
+
+    # Fetch all chapters for the chapter dropdown
+    chapters = Chapter.query.all()
+    form.chapter.choices = [(chapter.id, chapter.name) for chapter in chapters]
 
     if form.validate_on_submit():
-        # Fetch chapters based on selected subject
-        chapters = Chapter.query.filter_by(subject_id=form.subject.data).all()
-        form.chapter.choices = [(chapter.id, chapter.name) for chapter in chapters]
-
         quiz = Quiz(
             title=form.title.data, 
             chapter_id=form.chapter.data
@@ -139,6 +140,11 @@ def create_question():
     # Populate subject choices
     subjects = Subject.query.all()
     form.subject.choices = [(subject.id, subject.name) for subject in subjects]
+
+        # Fetch chapters based on selected subject
+    chapters = Chapter.query.all()
+    form.chapter.choices = [(chapter.id, chapter.name) for chapter in chapters]
+
 
     # Populate quiz choices based on selected chapter
     if form.subject.data:

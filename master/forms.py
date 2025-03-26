@@ -41,7 +41,7 @@ class ChapterForm(FlaskForm):
 
 class QuizForm(FlaskForm):
     title = StringField('Quiz Title:', validators=[DataRequired()])
-    subject = SelectField('Subject', coerce=int, validators=[DataRequired()])  # To be populated with subjects
+    # subject = SelectField('Subject', coerce=int, validators=[DataRequired()])  # To be populated with subjects
     chapter = SelectField('Chapter', coerce=int, validators=[DataRequired()])  # To be populated with chapters
     submit = SubmitField('Add Quiz')
 
