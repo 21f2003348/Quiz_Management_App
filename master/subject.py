@@ -30,6 +30,3 @@ class Question(db.Model):
     option2 = db.Column(db.String(100), nullable=False)
     option3 = db.Column(db.String(100), nullable=False)
     option4 = db.Column(db.String(100), nullable=False)
-
-with app.app_context():
-    db.create_all()

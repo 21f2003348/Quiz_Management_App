@@ -1,5 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, HiddenField, StringField, SubmitField, SelectField, TextAreaField
+from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectField, TextAreaField, FieldList
+
+from wtforms import FieldList, FormField
+
 from wtforms.validators import Length, EqualTo, Email, DataRequired, ValidationError
 from master.student import Student
 
@@ -25,7 +28,6 @@ class LoginForm(FlaskForm):
     password = PasswordField(label='Password:', validators=[DataRequired()])
     submit = SubmitField(label='Sign in')
 
-
 class SubjectForm(FlaskForm):
     name = StringField(label='Subject Name:', validators=[DataRequired(), Length(min=2, max=100)])
     submit = SubmitField(label='Submit')
@@ -38,13 +40,11 @@ class ChapterForm(FlaskForm):
     def __init__(self, *args, **kwargs):
         super(ChapterForm, self).__init__(*args, **kwargs)
 
-
 class QuizForm(FlaskForm):
     title = StringField('Quiz Title:', validators=[DataRequired()])
     # subject = SelectField('Subject', coerce=int, validators=[DataRequired()])  # To be populated with subjects
     chapter = SelectField('Chapter', coerce=int, validators=[DataRequired()])  # To be populated with chapters
     submit = SubmitField('Add Quiz')
-
 
 class QuestionForm(FlaskForm):
     chapter = SelectField('Chapter', coerce=int, validators=[DataRequired()])  # To be populated with chapters

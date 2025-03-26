@@ -1,8 +1,6 @@
 from master import app
 from master.forms import ChapterForm  # Import the ChapterForm
-
 from flask import render_template, redirect, url_for, flash, request, abort, jsonify
-
 from master.student import Student, Admin
 from master.forms import RegisterForm, LoginForm, SubjectForm, ChapterForm, QuizForm, QuestionForm
 from master.subject import Subject, Chapter, Quiz, Question
@@ -155,7 +153,6 @@ def create_question():
         form.quiz.choices = [(quiz.id, quiz.title) for quiz in quizzes]
 
         if form.chapter.data:
-            print(1)
             quizzes = Quiz.query.filter_by(chapter_id=form.chapter.data).all()
             form.quiz.choices = [(quiz.id, quiz.title) for quiz in quizzes]
         else:
@@ -164,17 +161,17 @@ def create_question():
 
     # Populate chapter choices based on selected subject
     if form.validate_on_submit():
-        chapters = Chapter.query.filter_by(subject_id=form.subject.data).all()
-        form.chapter.choices = [(chapter.id, chapter.name) for chapter in chapters]
-
+        # New logic to handle options
+        options = form.options.data  # Get the options from the form
         question = Question(
             text=form.text.data,
             answer=form.answer.data,
             quiz_id=form.quiz.data,
-            option1=form.option1.data,
-            option2=form.option2.data,
-            option3=form.option3.data,
-            option4=form.option4.data
+            option1=options[0] if len(options) > 0 else None,
+            option2=options[1] if len(options) > 1 else None,
+            option3=options[2] if len(options) > 2 else None,
+            option4=options[3] if len(options) > 3 else None
+
         )
 
         db.session.add(question)
