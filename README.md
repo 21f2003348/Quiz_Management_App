@@ -1,7 +1,16 @@
 # 🧠 Quiz Management Web App
 
-A full-stack **Quiz Management Web Application** built using **Flask**, developed as part of the **Modern Application Development (MAD1)** course at **IIT Madras**.  
-This project provides a complete system for user registration, quiz creation, participation, and score management — with separate dashboards for **Admin** and **Users**.
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue?logo=python)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black?logo=flask)
+![SQLite](https://img.shields.io/badge/SQLite-Database-lightblue?logo=sqlite)
+![HTML](https://img.shields.io/badge/Frontend-HTML%2FCSS-orange?logo=html5)
+![License](https://img.shields.io/badge/License-MIT-yellow)
+![Status](https://img.shields.io/badge/Project-Active-brightgreen)
+
+---
+
+>A full-stack **Quiz Management Web Application** built using **Flask**, developed as part of the **Modern Application Development (MAD1)** course at **IIT Madras**.  
+>This project provides a complete system for user registration, quiz creation, participation, and score management — with separate dashboards for **Admin** and **Users**.
 
 ---
 
